@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: {
+            'fade-in': 'fadeIn 0.5s ease-out',
+            'slide-up': 'slideUp 0.5s ease-out',
+            'rotate-y': 'rotateY 0.6s ease-in-out',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            slideUp: {
+              '0%': { transform: 'translateY(100px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            },
+            rotateY: {
+              '0%': { transform: 'rotateY(0deg)' },
+              '100%': { transform: 'rotateY(180deg)' },
+            },
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    .card {
+      transform-style: preserve-3d;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-front,
+    .card-back {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+    }
+
+    .floating-input {
+      transition: all 0.2s ease;
+    }
+
+    .floating-input:focus {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+  <title>Login/Signup - Travel World</title>
+</head>
+<body class="bg-black min-h-screen flex items-center justify-center p-4">
+  <!-- Background Elements -->
+  <div class="fixed inset-0 -z-10 overflow-hidden">
+    <div class="absolute top-0 -left-4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float"></div>
+    <div class="absolute top-0 -right-4 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float" style="animation-delay: 2s"></div>
+    <div class="absolute -bottom-8 left-20 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float" style="animation-delay: 4s"></div>
+  </div>
+
+  <!-- Auth Card Container -->
+  <div class="relative w-full max-w-md perspective my-8">
+    <div class="card transform -translate-y-12">
+      <!-- Login Form (Front) -->
+      <div class="card-front">
+        <div class="bg-gradient-to-br from-black/90 to-black/70 backdrop-blur-xl border border-white/10 p-8 rounded-2xl shadow-2xl">
+          <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-transparent bg-clip-text">Welcome Back</h2>
+            <p class="text-gray-400 mt-2">Sign in to continue your journey</p>
+          </div>
+
+          <form class="space-y-6">
+            <div class="space-y-2">
+              <label class="text-gray-300 text-sm font-medium">Email</label>
+              <input type="email" class="floating-input w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all" placeholder="Enter your email">
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-gray-300 text-sm font-medium">Password</label>
+              <input type="password" class="floating-input w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all" placeholder="Enter your password">
+            </div>
+
+            <div class="flex items-center justify-between text-sm">
+              <label class="flex items-center text-gray-400">
+                <input type="checkbox" class="mr-2">
+                Remember me
+              </label>
+              <a href="#" class="text-purple-500 hover:text-purple-400">Forgot password?</a>
+            </div>
+
+            <button class="w-full py-3 px-6 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white rounded-xl hover:opacity-90 transition-opacity">
+              Sign In
+            </button>
+          </form>
+
+          <div class="mt-6 text-center">
+            <button onclick="flipCard()" class="text-gray-400 hover:text-white transition-colors">
+              Don't have an account? <span class="text-purple-500">Sign up</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Signup Form (Back) -->
+      <div class="card-back">
+        <div class="bg-gradient-to-br from-black/90 to-black/70 backdrop-blur-xl border border-white/10 p-8 rounded-2xl shadow-2xl">
+          <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-transparent bg-clip-text">Create Account</h2>
+            <p class="text-gray-400 mt-2">Join us on your next adventure</p>
+          </div>
+
+          <form class="space-y-6">
+            <div class="grid grid-cols-2 gap-4">
+              <div class="space-y-2">
+                <label class="text-gray-300 text-sm font-medium">First Name</label>
+                <input type="text" class="floating-input w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all" placeholder="First name">
+              </div>
+              <div class="space-y-2">
+                <label class="text-gray-300 text-sm font-medium">Last Name</label>
+                <input type="text" class="floating-input w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all" placeholder="Last name">
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-gray-300 text-sm font-medium">Email</label>
+              <input type="email" class="floating-input w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all" placeholder="Enter your email">
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-gray-300 text-sm font-medium">Password</label>
+              <input type="password" class="floating-input w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all" placeholder="Create a password">
+            </div>
+
+            <button class="w-full py-3 px-6 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white rounded-xl hover:opacity-90 transition-opacity">
+              Sign Up
+            </button>
+          </form>
+
+          <div class="mt-6 text-center">
+            <button onclick="flipCard()" class="text-gray-400 hover:text-white transition-colors">
+              Already have an account? <span class="text-purple-500">Sign in</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function flipCard() {
+      const card = document.querySelector('.card');
+      card.classList.toggle('flipped');
+    }
+
+    // Add floating animation to background elements
+    document.addEventListener('mousemove', (e) => {
+      const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+      const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+      
+      document.querySelectorAll('.animate-float').forEach(element => {
+        element.style.transform = `translate(${moveX}px, ${moveY}px)`;
+      });
+    });
+  </script>
+</body>
+</html> 
